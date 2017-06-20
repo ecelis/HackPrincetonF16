@@ -16,6 +16,14 @@ Go to the [chrome web store](https://chrome.google.com/webstore/detail/project-f
 ###### Backend Server Docker Container
 To build the backend python server locally to use with the extension, this repository includes [backend/Dockerfile](backend/Dockerfile).
 
+
+Configure secrets first, copy the template configuration file and edit
+with apropriate secrets.
+```
+cp config/variables.env.sample config/variables.env
+```
+
+
 Build the Docker image
 ```
 cd backend/
@@ -24,7 +32,13 @@ docker build -t hackprincetonf16 .
 
 Run the Docker container locally on port 5000
 ```
-docker run -it --rm -p 5000:5000 hackprincetonf16
+docker run -it --rm --env-file config/variables.env -p 5000:5000 hackprincetonf16
+```
+
+
+Run with docker-compose for local development.
+```
+docker-compose up
 ```
 
 Update `var server` in [extension/myScript.js](extension/myScript.js) to `http://localhost:5000` before installing the extension manually.
