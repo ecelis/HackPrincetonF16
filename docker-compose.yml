@@ -1,0 +1,24 @@
+version: '2'
+services:
+  app:
+    image: hackprincetonf16
+    build: ./backend
+    volumes:
+      - ./backend/app:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./config/variables.env
+#  web:
+#    image: semitki/web
+#    build: ./front
+#    ports:
+#      - "9080:80"
+#    volumes:
+#      - ./config/conf.d:/etc/nginx/conf.d
+#      - ./front/dist:/usr/share/nginx/html
+#      - ./storage:/usr/share/nginx/html/storage
+#    depends_on:
+#      - app
+#    links:
+#      - app
