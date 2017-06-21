@@ -20,7 +20,7 @@ function text(res) {
  */
 function httpGet(input, type, data) {
 
-	var server = "https://fbserve.herokuapp.com/";
+	var server = "https://localhost:5000/";
 	var contents = "?content=";
 	var page = (type=="url")? decode(input) : input;
 	var theUrl = server + contents + page;
