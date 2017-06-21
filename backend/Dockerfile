@@ -20,8 +20,9 @@ RUN apk --no-cache add \
     apk del build-dependencies
 
 # Copy the app after installing dependencies
-COPY ./app/*.py ${APP_DIR}/
-
+COPY app/*.py ${APP_DIR}/
+# Copy certificates to run https
+COPY app/*.pem ${APP_DIR}/
 #Run app
 ENTRYPOINT ["python"]
 CMD ["Server.py", "--log-file", "-"]
