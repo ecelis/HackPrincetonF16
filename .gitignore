@@ -2,3 +2,4 @@
 variables.env
 ENV
 *.pyc
+config.ini

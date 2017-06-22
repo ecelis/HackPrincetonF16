@@ -2,24 +2,28 @@ import os
 import http.client
 import json
 import urllib
+import configparser
 
+config = configparser.ConfigParser()
+config.sections()
+config.read('config.ini')
 
-TWITTER_API_KEY = os.environ['TWITTER_API_KEY']
-TWITTER_API_SECRET = os.environ['TWITTER_API_SECRET']
+TWITTER_API_KEY = os.environ['TWITTER_API_KEY'] or config['TWITTER_API_KEY']
+TWITTER_API_SECRET = os.environ['TWITTER_API_SECRET'] or config['TWITTER_API_SECRET']
 
-OAUTH_TOKEN = os.environ['OAUTH_TOKEN']
-OAUTH_TOKEN_SECRET = os.environ['OAUTH_TOKEN_SECRET']
+OAUTH_TOKEN = os.environ['OAUTH_TOKEN'] or config['OAUTH_TOKEN']
+OAUTH_TOKEN_SECRET = os.environ['OAUTH_TOKEN_SECRET'] or config['OAUTH_TOKEN_SECRET']
 
-WOT_API_KEY = os.environ['WOT_API_KEY']
-MIN_TRUST_SCORE = int(os.environ['MIN_TRUST_SCORE'])
+WOT_API_KEY = os.environ['WOT_API_KEY'] or config['WOT_API_KEY']
+MIN_TRUST_SCORE = int(os.environ['MIN_TRUST_SCORE']) or config['MIN_TRUST_SCORE']
 
-AYLIEN_APP_ID = os.environ['AYLIEN_APP_ID']
-AYLIEN_APP_KEY = os.environ['AYLIEN_APP_KEY']
+AYLIEN_APP_ID = os.environ['AYLIEN_APP_ID'] or config['AYLIEN_APP_ID']
+AYLIEN_APP_KEY = os.environ['AYLIEN_APP_KEY'] or config['AYLIEN_APP_KEY']
 
-IBM_WATSON_API_KEY = os.environ['IBM_WATSON_API_KEY']
+IBM_WATSON_API_KEY = os.environ['IBM_WATSON_API_KEY'] or config['IBM_WATSON_API_KEY']
 
-MICROSOFT_CV_SUBSCRIPTION_KEY = os.environ['MICROSOFT_CV_SUBSCRIPTION_KEY']
-MICROSOFT_SEARCH_SUBSCRIPTION_KEY = os.environ['MICROSOFT_SEARCH_SUBSCRIPTION_KEY']
+MICROSOFT_CV_SUBSCRIPTION_KEY = os.environ['MICROSOFT_CV_SUBSCRIPTION_KEY'] or config['MICROSOFT_CV_SUBSCRIPTION_KEY']
+MICROSOFT_SEARCH_SUBSCRIPTION_KEY = os.environ['MICROSOFT_SEARCH_SUBSCRIPTION_KEY'] or config['MICROSOFT_SEARCH_SUBSCRIPTION_KEY']
 
 def no_adult_content(body):
     """
