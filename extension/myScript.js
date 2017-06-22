@@ -151,7 +151,7 @@ setInterval(function() {
 			var link = test[i].querySelector('._5pbx.userContent');
 			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href != null) {
 				processed = true;
-				httpGet(link.href, "url", data);
+				httpGet(link.querySelector('a'), "url", data);
 			}
 
 
