@@ -31,21 +31,20 @@ function httpGet(input, type, data) {
 
 	//console.log("Type: " + type + " : " + page);
 
-	fetch(theUrl, {mode: 'cors'})
-		.then(text).then(function(text) {
-			var btn = document.createElement('div'),
-				button = Ladda.create(btn);
+  fetch(theUrl, {mode: 'cors'})
+    .then(text).then(function(text) {
+      var btn = document.createElement('div'),
+        button = Ladda.create(btn);
         btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px;";
-			if(text=="verified") {
-				btn.innerHTML = "verified";
-				btn.style.color = "#D5F5E3";
-			} else {
-				btn.innerHTML = "not verified";
-				btn.style.color = "#E74C3C";
-			}
-			data.appendChild(btn);
-		});
-
+      if(text=="verified") {
+        btn.innerHTML = "verified";
+        btn.style.color = "#D5F5E3";
+      } else {
+        btn.innerHTML = "not verified";
+        btn.style.color = "#E74C3C";
+      }
+      data.appendChild(btn);
+    });
 }
 
 /**
@@ -114,7 +113,7 @@ function decode(code) {
  if (url_obj.queryKey.u) {
    return url_obj.queryKey.u;
  } else if (url_obj.host === 'www.facebook.com') {
-   return url_obj;
+   return url_obj.source;
  } else {
    return link;
  }
@@ -154,7 +153,7 @@ setInterval(function() {
 			var link = test[i].querySelector('._5pbx.userContent');
 			if(!processed && link != null && link.querySelector('a') != null && link.querySelector('a').href != null) {
 				processed = true;
-				httpGet(link.querySelector('a'), "url", data);
+				httpGet(link.querySelector('a').href, "url", data);
 			}
 
 
