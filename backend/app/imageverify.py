@@ -1,27 +1,25 @@
 import os
+import logging
 import http.client
 import json
 import urllib
 import configparser
 
+logging.getLogger('imageverify').level = logging.DEBUG
+
 config = configparser.ConfigParser()
 config.sections()
 config.read('config.ini')
 
+MIN_TRUST_SCORE = int(os.environ['MIN_TRUST_SCORE']) or config['MIN_TRUST_SCORE']
 TWITTER_API_KEY = os.environ['TWITTER_API_KEY'] or config['TWITTER_API_KEY']
 TWITTER_API_SECRET = os.environ['TWITTER_API_SECRET'] or config['TWITTER_API_SECRET']
-
 OAUTH_TOKEN = os.environ['OAUTH_TOKEN'] or config['OAUTH_TOKEN']
 OAUTH_TOKEN_SECRET = os.environ['OAUTH_TOKEN_SECRET'] or config['OAUTH_TOKEN_SECRET']
-
 WOT_API_KEY = os.environ['WOT_API_KEY'] or config['WOT_API_KEY']
-MIN_TRUST_SCORE = int(os.environ['MIN_TRUST_SCORE']) or config['MIN_TRUST_SCORE']
-
 AYLIEN_APP_ID = os.environ['AYLIEN_APP_ID'] or config['AYLIEN_APP_ID']
 AYLIEN_APP_KEY = os.environ['AYLIEN_APP_KEY'] or config['AYLIEN_APP_KEY']
-
 IBM_WATSON_API_KEY = os.environ['IBM_WATSON_API_KEY'] or config['IBM_WATSON_API_KEY']
-
 MICROSOFT_CV_SUBSCRIPTION_KEY = os.environ['MICROSOFT_CV_SUBSCRIPTION_KEY'] or config['MICROSOFT_CV_SUBSCRIPTION_KEY']
 MICROSOFT_SEARCH_SUBSCRIPTION_KEY = os.environ['MICROSOFT_SEARCH_SUBSCRIPTION_KEY'] or config['MICROSOFT_SEARCH_SUBSCRIPTION_KEY']
 
@@ -45,9 +43,11 @@ def no_adult_content(body):
         is_adult = data['adult']['isAdultContent']
         is_racy =  data['adult']['isRacyContent']
         conn.close()
+        return not is_adult and not is_racy
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
-    return not is_adult and not is_racy
+        print(e)
+        return is_adult and is_racy
+
 
 #no_adult_content("{\"url\":\"http://www.gettyimages.ca/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg\"}")
 
@@ -92,7 +92,8 @@ def twitter_present(link):
                         pass
         conn.close()
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e)
+        #print("[Errno {0}] {1}".format(e.errno, e.strerror))
     twpresentornot = 0
     if twitterorno == 0:
         u = 1
@@ -174,7 +175,9 @@ def other_links(url):
     """
     Uses Microsoft's Cognitive API to evaluate the quality of a webpage, and suggest
     better information if possible.
+    WARNING! Disabled until I find a replacement for Microsoft Cognitive API
     """
+    #pass # TODO remove this to re-enable
     link_verified = verified_links(url)
     if link_verified == "not verified":
 
