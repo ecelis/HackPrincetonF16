@@ -171,10 +171,17 @@ def url_title(link):
         title: "IBM Closes Weather Co. Purchase, Names David Kenny New Head Of Watson Platform"
     """
     from watson_developer_cloud import AlchemyLanguageV1
-    alchemy_language = AlchemyLanguageV1(api_key = IBM_WATSON_API_KEY)
-    alchemyres = json.dumps(alchemy_language.title(url=link),indent=2)
-    data = json.loads(alchemyres)
-    return data["title"] # TODO Check whether json response is empty or not
+    try:
+        alchemy_language = AlchemyLanguageV1(api_key = IBM_WATSON_API_KEY)
+        alchemyres = json.dumps(alchemy_language.title(url=link),indent=2)
+        data = json.loads(alchemyres)
+        if "title" in data:
+            return data["title"] # TODO Check whether json response is empty or not
+        else:
+            return ""
+    except Exception as e:
+        print(e)
+        return ""
 
 def other_links(url):
     """
@@ -182,7 +189,7 @@ def other_links(url):
     better information if possible.
     WARNING! Disabled until I find a replacement for Microsoft Cognitive API
     """
-    pass # TODO remove this to re-enable
+    #pass # TODO remove this to re-enable
     link_verified = verified_links(url)
     if link_verified == "not verified":
 
@@ -209,7 +216,10 @@ def other_links(url):
             return "no verified links"
 
         except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            #print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            print (e)
+            link_verified = "not verified" # TODO re-enable with new watson keys
+            return link_verified
     else:
         return link_verified
 

@@ -15,9 +15,9 @@ COPY requirements.txt ${APP_DIR}/
 # Install build packages, python dependencies, and clean up
 RUN apk --no-cache add \
         --virtual build-dependencies \
-          build-base && \
+          build-base libffi libffi-dev openssl openssl-dev && \
     pip install -U -r requirements.txt && \
-    apk del build-dependencies
+    apk del build-dependencies libffi-dev openssl-dev
 
 # Copy the app after installing dependencies
 COPY app/*.py ${APP_DIR}/
