@@ -7,10 +7,13 @@
  */
 (function(document) {
 'use strict';
+
 var feeds = new Set();
+
 function text(res) {
 	return res.text();
 }
+
 /**
  * Http request to fbserve.herokuapp.com.
  *
@@ -28,11 +31,11 @@ function httpGet(input, type, data) {
 
 	//console.log("Type: " + type + " : " + page);
 
-	fetch(theUrl)
+	fetch(theUrl, {mode: 'cors'})
 		.then(text).then(function(text) {
 			var btn = document.createElement('div'),
 				button = Ladda.create(btn);
-			btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px;";
+        btn.style = "font-weight:bold; padding: 3px; position:absolute; top: 4px; right: 30px;background: #3b5998; font-size: 15px;";
 			if(text=="verified") {
 				btn.innerHTML = "verified";
 				btn.style.color = "#D5F5E3";
@@ -182,11 +185,11 @@ setInterval(function() {
 			}
 			*/
 
-			var text = test[i].querySelector('._5pbx.userContent');
-			if(!processed && text != null && text.textContent != null) {
-				processed = true;
-				httpGet(text.textContent, "text", data);
-			}
+			/*var text = test[i].querySelector('._5pbx.userContent');*/
+			//if(!processed && text != null && text.textContent != null) {
+				//processed = true;
+				//httpGet(text.textContent, "text", data);
+			/*}*/
 
 		}
 	}
