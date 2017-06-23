@@ -130,17 +130,22 @@ def verified_links( url ):
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'cache-control': "no-cache",
-        'postman-token': "93ffde57-c70f-a775-d5ce-03f8e152e9da"
+        #'postman-token': "93ffde57-c70f-a775-d5ce-03f8e152e9da"
         }
-    response = requests.request("GET", mywot_api_endpoint, data=payload, headers=headers, params=querystring)
-    data = response.text.replace("process","")
-    web_of_trust_score = int(data.split("[")[1].split(",")[0])
-    if web_of_trust_score > MIN_TRUST_SCORE:
-        return "verified"
-    elif "blacklists" in data:
-        return "Blacklisted"
-    else:
-        return "not verified" # TODO Why are we returning Strings and not booleans here?
+    try:
+        response = requests.request("GET", mywot_api_endpoint, data=payload, headers=headers, params=querystring)
+        data = response.text.replace("process","")
+        web_of_trust_score = int(data.split("[")[1].split(",")[0])
+        if web_of_trust_score > MIN_TRUST_SCORE:
+            return "verified"
+        elif "blacklists" in data:
+            return "Blacklisted"
+        else:
+            return "not verified" # TODO Why are we returning Strings and not booleans here?
+    except Exception as e:
+        print (e)
+        return "not verified"
+
 
 def summarization(url):
     """
@@ -177,7 +182,7 @@ def other_links(url):
     better information if possible.
     WARNING! Disabled until I find a replacement for Microsoft Cognitive API
     """
-    #pass # TODO remove this to re-enable
+    pass # TODO remove this to re-enable
     link_verified = verified_links(url)
     if link_verified == "not verified":
 
