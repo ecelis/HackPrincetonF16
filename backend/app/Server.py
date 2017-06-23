@@ -1,16 +1,19 @@
 import os
+import logging
 from flask import Flask, request
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from imageverify import main
 
+logging.getLogger('flask-cors').level = logging.DEBUG
+
 app = Flask(__name__)
-#cors = CORS(app)
-#app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)
 
 @app.route('/')
-@cross_origin()
+@cross_origin(allow_headers=['Content-Type'])
 def hello():
     user = request.args.get('content')
+    # Workaround a weird value sent from browser extension
     status = main(user)
     return status
 
